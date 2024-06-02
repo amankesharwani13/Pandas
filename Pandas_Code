@@ -1,0 +1,317 @@
+
+
+# # Pandas two dataframe
+
+# ## 1.Dataframe
+# ## 2.Series
+
+# In[1]:
+
+
+# dataframe ----> whole table
+# series ------> one row or column
+
+
+# In[1]:
+
+
+import numpy as np
+import pandas as pd
+
+
+# In[2]:
+
+
+data = pd.read_csv('matches.csv')
+
+
+# In[3]:
+
+
+data
+
+
+# In[4]:
+
+
+type(data)
+
+
+# In[5]:
+
+
+data.head()
+
+
+# In[6]:
+
+
+data.head(5)
+
+
+# In[7]:
+
+
+data.tail()
+
+
+# In[8]:
+
+
+data.shape
+
+
+# In[9]:
+
+
+data.info()
+
+
+# In[10]:
+
+
+data.describe()
+
+
+# In[11]:
+
+
+data['winner']    # fetch a column
+
+
+# In[16]:
+
+
+data[['team1','team2','winner']]
+
+
+# In[17]:
+
+
+data[['team1','team2','winner']].shape
+
+
+# In[18]:
+
+
+data.iloc[1]  # fetch the second row
+
+
+# In[19]:
+
+
+data.iloc[1:3]
+
+
+# In[20]:
+
+
+data.iloc[[1,5,6]]  # want to fetch 1,5,6 row of data
+
+
+# In[21]:
+
+
+data.iloc[:,[4,5,10]] # All rows and 4,5,10 columns 
+
+
+# In[22]:
+
+
+data['city'] == 'Hyderabad'
+
+
+# In[23]:
+
+
+type(data['city'] == 'Hyderabad')
+
+
+# In[24]:
+
+
+mask = data['city'] == 'Hyderabad'
+data[mask]
+
+
+# In[25]:
+
+
+mask = data['city'] == 'Hyderabad'
+data[mask].shape     # 49 matches in hyderabad
+
+
+# In[26]:
+
+
+def get_city_match_count(city):
+    mask = data['city'] == city
+    return data[mask].shape[0]
+
+
+# In[27]:
+
+
+get_city_match_count('Bangalore')
+
+
+# In[28]:
+
+
+mask1 = data['city'] == 'Hyderabad'
+mask2 = data['date'] > '2010-01-01'
+
+data[mask1 & mask2]   # played in hyderabad and after 2010-01-01
+
+
+# In[29]:
+
+
+data['winner'].value_counts()     # value count ki kon si team ne kitne matches jite hai
+
+
+# In[30]:
+
+
+# The Pandas Plot()
+import matplotlib.pyplot as plt
+
+
+# In[31]:
+
+
+data['winner'].value_counts().plot(kind='bar')
+
+
+# In[28]:
+
+
+data['winner'].value_counts().head().plot(kind='bar')
+
+
+# In[32]:
+
+
+data['winner'].value_counts().plot(kind='barh')
+
+
+# In[33]:
+
+
+data['toss_decision'].value_counts().plot(kind='pie')
+
+
+# In[34]:
+
+
+data['win_by_runs'].plot(kind='hist')
+
+
+# In[35]:
+
+
+myseries=data['winner'].value_counts()
+
+
+# In[33]:
+
+
+myseries.index
+
+
+# In[36]:
+
+
+myseries.values
+
+
+# In[37]:
+
+
+myseries['Royal Challengers Bangalore']
+
+
+# In[38]:
+
+
+# how many matches CSK played as team1 and team2
+data['team2'].value_counts() + data['team1'].value_counts()
+
+
+# In[39]:
+
+
+(data['team2'].value_counts() + data['team1'].value_counts()).sort_values(ascending = False)
+
+
+# In[40]:
+
+
+data.sort_values('city')
+
+
+# In[41]:
+
+
+data.sort_values('city', ascending = False)
+
+
+# In[54]:
+
+
+data.sort_values('city', ascending = False) # (inplace = True )karne se changes parmanent ho jayege, your data will change
+
+
+# In[53]:
+
+
+data
+
+
+# In[50]:
+
+
+data.sort_values(['city','date']) # city aur date ke base par sort ho gaya
+
+
+# In[45]:
+
+
+data.sort_values(['city','date'],ascending = [True,False])
+
+
+# In[51]:
+
+
+data
+
+
+# In[62]:
+
+
+data.sort_values('id', ascending = True, inplace = True) # (inplace = True )
+
+
+# In[63]:
+
+
+data
+
+
+# In[64]:
+
+
+data.drop_duplicates(subset = ['city'])
+
+
+# In[67]:
+
+
+data.drop_duplicates('season', keep = 'last').sort_values('season')[['season','winner']] # By deafult keep = 1
+
+
+# In[ ]:
+
+
+
+
